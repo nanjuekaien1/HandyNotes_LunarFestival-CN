@@ -2041,7 +2041,7 @@ elseif ns.locale == "zhCN" then
 	
 	L["elderBluewolf"] = "他在这里面。如果你的阵营没有控制权，请参阅我的简易冒险指南！如果你的阵营已经控制，那么传送门户就能正常使用"
 	L["elderNurgenExit"] = "离开地下城后，走这里的小路，很快就可以到达"
-	L["taraezorPromo"] = "\n\n感谢您使用我的插件。希望我可以帮到你！ :)\n\n我在 X, BlueSky and Ko-fi 账号是 @Taraezor. 还有我在 curseforge 网站上的项目，您可能会找到更多有用的插件！"
+	L["taraezorPromo"] = "\n\n感谢您使用我的插件。希望我可以帮到你！ :)\n\n我在 X, BlueSky 和 Ko-fi 账号是 @Taraezor. 还有我在 curseforge 网站上的项目，您可能会找到更多有用的插件！"
 	L["Horde be quick here!"] = "部落到这里快点！"
 	L["Moonwell of Purity"] = "纯净月亮井"
 	L["Moonwell of Cleansing"] = "净化月亮井"
