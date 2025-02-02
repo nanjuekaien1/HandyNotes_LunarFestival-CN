@@ -315,7 +315,7 @@ elseif ns.locale == "zhCN" then
 	ns.L["Yellow"] = "黄色"
 	ns.L["Grey"] = "灰色"
 	ns.L["Mana Orb"] = "法力球"
-	ns.L["Phasing"] = "阶段"
+	ns.L["Phasing"] = "同步"
 	ns.L["Raptor egg"] = "迅猛龙蛋"
 	ns.L["Stars"] = "星星"
 	ns.L["Screw"] = "螺旋"
