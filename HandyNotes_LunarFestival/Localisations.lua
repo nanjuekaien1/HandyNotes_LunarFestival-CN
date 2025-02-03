@@ -467,11 +467,11 @@ elseif ns.locale == "zhTW" then
 	ns.L["Not yet begun"] = "未開始"
 	ns.L["Your map is looking at the wrong time in the zone's history."] = "您在區域地圖上看到的時間綫是錯誤的。你必須去找你必須找希多爾米對話來切換時間綫"
 			.."in the zone then you must first speak to Zidormi"
-	ns.L["A shortcut to open this panel is via the Minimap AddOn"] = "打開該界面快捷方式可以通過原生暴雪小地圖插件"
-		    .."菜單，它就在原生暴雪日曆圖標的下方。只需點擊鼠標\n\n"
+	ns.L["A shortcut to open this panel is via the Minimap AddOn"] = "打開該界面快捷方式可以通過原生暴雪小地圖外掛程式"
+		    .."功能表，它就在原生暴雪日曆圖示的下方。只需點擊鼠標\n\n"
 	ns.L["Chat command shortcuts are also supported.\n\n"] = "還支持輸入命令打開方式，輸入。\n\n"
 	ns.L[" - Show this panel\n"] = " - 顯示設置界面\n"
-	ns.L["Try the Minimap AddOn Menu (below the Calendar)"] = "也可以在原生暴雪插件收納菜單打開（小地圖日誌圖標下方）"
+	ns.L["Try the Minimap AddOn Menu (below the Calendar)"] = "也可以在暴雪原生外掛程式收納功能表打開（小地圖日曆圖示下方）"
 	
 else
 	ns.L["Show Coordinates Description"] = "Display coordinates in tooltips on the world map and the mini map"
