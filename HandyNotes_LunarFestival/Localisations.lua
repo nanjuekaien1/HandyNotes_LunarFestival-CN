@@ -421,7 +421,7 @@ elseif ns.locale == "zhCN" then
 	ns.L["Your map is looking at the wrong time in the zone's history."] = "您在区域地图上看到的时间线是错误的话。你必须去找希多尔米对话切换时间线"
 	ns.L["A shortcut to open this panel is via the Minimap AddOn"] = "打开该界面的快捷方式可以通过原生暴雪小地图插件"
 		    .."菜单，它就在原生暴雪日历图标的下方。只需点击鼠标\n\n"
-	ns.L["Chat command shortcuts are also supported.\n\n"] = "还支持输入命令打开方式，输入。\n\n"
+	ns.L["Chat command shortcuts are also supported.\n\n"] = "還支援輸入命令打開方式，輸入。\n\n"
 	ns.L[" - Show this panel\n"] = "- 显示设置界面\n"
 	ns.L["Try the Minimap AddOn Menu (below the Calendar)"] = "也可以在暴雪原生插件收纳菜单打开（小地图日历图标下方）"
 
