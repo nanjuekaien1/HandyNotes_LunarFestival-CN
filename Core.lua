@@ -3,7 +3,7 @@
 
                                            Lunar Festival
 
-                                      v4.06 - 30th January 2025
+                                      v4.10 - 3rd February 2025
                                 Copyright (C) Taraezor / Chris Birch
                                          All Rights Reserved
 
@@ -36,7 +36,8 @@ local defaults = { profile = { iconScale = 2.5, iconAlpha = 1, showCoords = true
 								removeDailies = true, removeSeasonal = true, removeAchieveChar = true,
 								removeAchieveAcct = false,
 								iconZoneElders = 15, iconDungeonElders = 14, iconCrown = 13,
-								iconFactionElders = 11, iconPreservation = 10, iconSeasonal=12, } }
+								iconFactionElders = 11, iconPreservation = 9, iconSeasonal=12,
+								iconMeta = 16, iconHistory = 10, iconSpecial = 8, } }
 local continents = {}
 local pluginHandler = {}
 
@@ -123,6 +124,31 @@ end
 
 -- ---------------------------------------------------------------------------------------------------------------------------------
 
+local function CorrectMapPhase( mapID )
+
+	if ( ns.version < 60000 ) then return true end -- Safe to drop through the code but more efficient to just exit
+
+	if ( mapID == 17 ) or -- Blasted Lands
+			( mapID == 18 ) or ( mapID == 2070 ) or -- Tirisfal Glades
+			( mapID == 57 ) or ( mapID == 62 ) or ( mapID == 81 ) or -- Teldrassil, Silithus, Darkshore
+			( mapID == 249 ) or ( mapID == 1527 ) then -- Uldum
+		for i = 1, 40 do -- 40 is rather arbitrary these days I think
+			local auraData = UnitAura( "player", i, "HELPFUL" )
+			if auraData == nil then break end
+			if auraData.spellId then
+				if ( auraData.spellId == 372329 ) or ( auraData.spellId == 276827 ) or ( auraData.spellId == 255152 ) or
+						( auraData.spellId == 290246 ) or ( auraData.spellId == 317785 ) then
+					-- Time Travelling buff for Blasted Lands, Tirisfal Glades, Silithus, Darkshore/Teldrassil/Darnassus, Uldum
+					return true
+				end
+			end
+		end
+		return false
+	else
+		return true
+	end
+end
+
 local function SpacerFirstTimeHeader( firstTime, heading, colour )
 	if firstTime == true then
 		GameTooltip:AddLine( "\n" )
@@ -137,13 +163,19 @@ local function CompletionShow( completed, whatever, colour, name )
 		..( ( name == nil ) and "" or ( " (" ..( ( name == true ) and ns.name or ns.L["Account"] ) ..")" ) ) )
 end
 
+local function Tip( tip )
+	if tip then
+		GameTooltip:AddLine( ns.colour.plaintext .."\n" ..tip, nil, nil, nil, true )
+	end
+end
+
 local function GuideTip( pin )
 	if pin.guide then
 		GameTooltip:AddLine( ns.colour.highlight .."\n" ..ns.L[ "Guide" ] .."\n" ..ns.colour.Guide ..pin.guide,
 				nil, nil, nil, true )
 	end
 	if pin.tip then
-		GameTooltip:AddLine( ns.colour.plaintext .."\n" ..pin.tip, nil, nil, nil, true )
+		Tip( pin.tip )
 	end
 end
 
@@ -257,14 +289,9 @@ function pluginHandler:OnEnter(mapFile, coord)
 			end
 		end
 	end
-
-	if ( ( mapFile == 17 ) and ( GetMapArtID( mapFile ) ~= 18 ) ) or -- Blasted Lands Testing was 18 or 628 
-		( ( mapFile == 18 ) and ( GetMapArtID( mapFile ) ~= 19 ) ) or -- Tirisfal Glades Testing was 19 or 628 
-		( ( mapFile == 81 ) and ( GetMapArtID( mapFile ) ~= 86 ) ) or -- Silithus Testing was 86 or 962 
-		( ( mapFile == 62 ) and ( GetMapArtID( mapFile ) ~= 67 ) ) then -- Darkshore Testing was 67 or 1176
-		if not pin.neighbour then
-			GameTooltip:AddLine( ns.colour.completeR ..ns.L["\nWrong map/quest phase. Speak to Zidormi"], nil, nil, nil, true )
-		end
+	
+	if ( CorrectMapPhase( mapFile ) == false ) then
+		Tip( ns.L["Your map is looking at the wrong time in the zone's history."] )
 	end
 
 	if pin.tip then
@@ -375,6 +402,30 @@ do
 								ns.db.iconScale * ns.scaling[ns.db.iconFactionElders], ns.db.iconAlpha
 						end
 					end
+				elseif pin.meta then
+					return coord, nil, ns.textures[ns.db.iconMeta],
+						ns.db.iconScale * ns.scaling[ns.db.iconMeta], ns.db.iconAlpha
+				elseif pin.metaLarge then
+					return coord, nil, ns.textures[ns.db.iconMeta],
+						ns.db.iconScale * 2 * ns.scaling[ns.db.iconMeta], ns.db.iconAlpha
+				elseif pin.history then
+					return coord, nil, ns.textures[ns.db.iconHistory],
+						ns.db.iconScale * 2 * ns.scaling[ns.db.iconHistory], ns.db.iconAlpha
+				elseif pin.metaFaction then
+					return coord, nil, ns.textures[ns.db.iconFactionElders],
+						ns.db.iconScale * ns.scaling[ns.db.iconFactionElders], ns.db.iconAlpha
+				elseif pin.elune then
+					return coord, nil, ns.textures[ns.db.iconSeasonal],
+						ns.db.iconScale * ns.scaling[ns.db.iconSeasonal], ns.db.iconAlpha
+				elseif pin.coins then
+					return coord, nil, ns.textures[ns.db.iconDungeonElders],
+						ns.db.iconScale * ns.scaling[ns.db.iconDungeonElders], ns.db.iconAlpha
+				elseif pin.pyro then
+					return coord, nil, ns.textures[ns.db.iconSpecial],
+						ns.db.iconScale * ns.scaling[ns.db.iconSpecial], ns.db.iconAlpha
+				elseif pin.finery then
+					return coord, nil, ns.textures[ns.db.iconZoneElders],
+						ns.db.iconScale * ns.scaling[ns.db.iconZoneElders], ns.db.iconAlpha
 				elseif pin.showAnyway or ShowSeasonal( pin ) or ShowDailies( pin ) or ShowOneTime( pin ) then
 					if pin.preservation then
 						return coord, nil, ns.textures[ns.db.iconPreservation],
@@ -541,7 +592,31 @@ ns.options = {
 					desc = ns.iconStandard, 
 					min = 1, max = 16, step = 1,
 					arg = "iconSeasonal",
-					order = 14,
+					order = 15,
+				},
+				iconMeta = {
+					type = "range",
+					name = ns.L["HonorElders"],
+					desc = ns.iconStandard, 
+					min = 1, max = 16, step = 1,
+					arg = "iconMeta",
+					order = 16,
+				},
+				iconHistory = {
+					type = "range",
+					name = ns.L["History"],
+					desc = ns.iconStandard, 
+					min = 1, max = 16, step = 1,
+					arg = "iconHistory",
+					order = 17,
+				},
+				iconSpecial = {
+					type = "range",
+					name = ns.L["Special"],
+					desc = ns.iconStandard, 
+					min = 1, max = 16, step = 1,
+					arg = "iconSpecial",
+					order = 18,
 				},
 			},
 		},
@@ -553,7 +628,8 @@ ns.options = {
 				noteMenu = { type = "description", name = ns.L["A shortcut to open this panel is via the Minimap AddOn"], order = 20, },
 				separator1 = { type = "header", name = "", order = 21, },
 				noteChat = { type = "description", name = ns.L["Chat command shortcuts are also supported.\n\n"]
-					..NORMAL_FONT_COLOR_CODE .."/lf" ..HIGHLIGHT_FONT_COLOR_CODE ..ns.L[" - Show this panel\n"],
+					..NORMAL_FONT_COLOR_CODE .."/lf" ..HIGHLIGHT_FONT_COLOR_CODE ..", "
+					..NORMAL_FONT_COLOR_CODE .."/lunar" ..HIGHLIGHT_FONT_COLOR_CODE ..ns.L[" - Show this panel\n"],
 					order = 22, },
 			},
 		},
@@ -588,36 +664,34 @@ function pluginHandler:OnEnable()
 	for continentMapID in next, ns.continents do
 		local children = C_Map.GetMapChildrenInfo(continentMapID, nil, true)
 		for _, map in next, children do
-			local coords = ns.points[map.mapID]
-			-- Maps here will not propagate upwards
-			if ( map.mapID == 33 ) or -- Blackrock Mountain - Blackrock Spire
-				( map.mapID == 34 ) or -- Blackrock Mountain - Blackrock Caverns
-				( map.mapID == 35 ) or -- Blackrock Mountain - Blackrock Depths
-				( map.mapID == 84 ) or -- Stormwind
-				( map.mapID == 85 ) or -- Orgrimmar
-				( map.mapID == 87 ) or -- Ironforge
-				( map.mapID == 88 ) or -- Thunder Bluff
-				( map.mapID == 89 ) or -- Darnassus
-				( map.mapID == 90 ) or -- Undercity
-				( map.mapID == 203 ) or -- Vashj'ir
-				( map.mapID == 224 ) or -- Stranglethorn Vale
-				-- HandyNotes pins are incorrectly scaled for Khaz Algar and therefore Azeroth too
-				-- So I had to do them manually
-				( map.mapID == 2255 ) or -- Azj-Kahet
-				( map.mapID == 2216 ) or -- City of Threads / Azj-Kahet - Lower
-				( map.mapID == 2213 ) or -- City of Threads / Azj-Kahet
-				( map.mapID == 2215 ) or -- Hallowfall
-				( map.mapID == 2248 ) or -- Isle of Dorn
-				( map.mapID == 2339 ) or -- City of Dornogal
-				( map.mapID == 2214 ) or -- The Ringing Deeps
-				( map.mapID == 2274 ) then -- Khaz Algar
-			elseif coords then
-				for coord, v in next, coords do
-					local mx, my = HandyNotes:getXY(coord)
-					local cx, cy = HereBeDragons:TranslateZoneCoordinates(mx, my, map.mapID, continentMapID)
-					if cx and cy then
-						ns.points[continentMapID] = ns.points[continentMapID] or {}
-						ns.points[continentMapID][HandyNotes:getCoord(cx, cy)] = v
+			if ns.points[map.mapID] then
+				-- Maps here will not propagate upwards
+				if ( map.mapID == 33 ) or -- Blackrock Mountain - Blackrock Spire
+					( map.mapID == 34 ) or -- Blackrock Mountain - Blackrock Caverns
+					( map.mapID == 35 ) or -- Blackrock Mountain - Blackrock Depths					
+				--	( map.mapID == 125 ) or -- Dalaran
+				--	( map.mapID == 203 ) or -- Vashj'ir
+				--	( map.mapID == 224 ) or -- Stranglethorn Vale
+					-- HandyNotes pins are incorrectly scaled for Khaz Algar and therefore Azeroth too
+					-- So I had to do them manually
+					( map.mapID == 2255 ) or -- Azj-Kahet
+					( map.mapID == 2216 ) or -- City of Threads / Azj-Kahet - Lower
+					( map.mapID == 2213 ) or -- City of Threads / Azj-Kahet
+					( map.mapID == 2215 ) or -- Hallowfall
+					( map.mapID == 2248 ) or -- Isle of Dorn
+					( map.mapID == 2339 ) or -- City of Dornogal
+					( map.mapID == 2214 ) or -- The Ringing Deeps
+					( map.mapID == 2274 ) then -- Khaz Algar
+				else
+					for coord, v in next, ns.points[map.mapID] do
+						if v.noContinent == nil then
+							local mx, my = HandyNotes:getXY(coord)
+							local cx, cy = HereBeDragons:TranslateZoneCoordinates(mx, my, map.mapID, continentMapID)
+							if cx and cy then
+								ns.points[continentMapID] = ns.points[continentMapID] or {}
+								ns.points[continentMapID][HandyNotes:getCoord(cx, cy)] = v
+							end
+						end
 					end
 				end
 			end
