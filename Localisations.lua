@@ -66,6 +66,7 @@ if ns.locale == "deDE" then
 	ns.L["Right"] = "Rechts"
 	ns.L["Try later"] = "Derzeit nicht möglich. Versuche es späte"
 	ns.L["Notes"] = "Notizen"
+	
 	--[[
 	ns.L["Try again. Server no response"] = "Try again. Server no response"
 	ns.L["Ready to turn in"] = "Ready to turn in"
@@ -115,6 +116,7 @@ elseif ns.locale == "esES" or ns.locale == "esMX" then
 	ns.L["Right"] = "Derecha"
 	ns.L["Try later"] = "No es posible en este momento. Intenta más tarde"
 	ns.L["Notes"] = "Notas"
+	
 	--[[
 	ns.L["Try again. Server no response"] = "Try again. Server no response"
 	ns.L["Ready to turn in"] = "Ready to turn in"
@@ -164,6 +166,7 @@ elseif ns.locale == "frFR" then
 	ns.L["Right"] = "Droite"
 	ns.L["Try later"] = "Pas possible pour le moment. Essayer plus tard"
 	ns.L["Notes"] = "Remarques"
+	
 	--[[
 	ns.L["Try again. Server no response"] = "Try again. Server no response"
 	ns.L["Ready to turn in"] = "Ready to turn in"
@@ -213,6 +216,7 @@ elseif ns.locale == "itIT" then
 	ns.L["Right"] = "Destra"
 	ns.L["Try later"] = "Non è possibile in questo momento. Prova più tardi"
 	ns.L["Notes"] = "Note"
+	
 	--[[
 	ns.L["Try again. Server no response"] = "Try again. Server no response"
 	ns.L["Ready to turn in"] = "Ready to turn in"
@@ -261,6 +265,7 @@ elseif ns.locale == "koKR" then
 	ns.L["Right"] = "오른쪽"
 	ns.L["Try later"] = "지금은 불가능합니다. 나중에 시도하세요"
 	ns.L["Notes"] = "메모"
+	
 	--[[
 	ns.L["Try again. Server no response"] = "Try again. Server no response"
 	ns.L["Ready to turn in"] = "Ready to turn in"
@@ -455,7 +460,8 @@ elseif ns.locale == "zhTW" then
 	ns.L["Right"] = "右"
 	ns.L["Try later"] = "目前不可能。稍後再試"
 	ns.L["Notes"] = "說明"
-	
+
+	--[[
 	ns.L["Try again. Server no response"] = "Try again. Server no response"
 	ns.L["Ready to turn in"] = "Ready to turn in"
 	ns.L["Wells so far: "] = "Wells so far: "
@@ -466,7 +472,8 @@ elseif ns.locale == "zhTW" then
 		    .." menu, which is immediately below the Calendar icon. Just click your mouse\n\n"
 	ns.L["Chat command shortcuts are also supported.\n\n"] = "Chat command shortcuts are also supported.\n\n"
 	ns.L[" - Show this panel\n"] = " - Show this panel\n"
-	ns.L["Try the Minimap AddOn Menu (below the Calendar)"] = "Try the Minimap AddOn Menu (below the Calendar)"
+	ns.L["Try the Minimap AddOn Menu (below the Calendar)"] = "Try the Minimap AddOn Menu (below the Calendar)"]]
+	
 else
 	ns.L["Show Coordinates Description"] = "Display coordinates in tooltips on the world map and the mini map"
 	ns.L["Grey"] = ( ( ns.locale == "enUS" ) and "Gray" or "Grey" )
